@@ -1,15 +1,29 @@
 <?
+//Set timezone
+date_default_timezone_set('Europe/Tallinn');
+
+
 //Start page load timing
 $page_load_start = microtime(1);
+
 
 //Connect to db
 require 'include/database.php';
 
-//Get page
-$page = !empty($_GET['page']) && file_exists("pages/$_GET[page].php") ? $_GET['page'] : 'home';
 
-//Include required page
+//Set page
+$page = !empty($_GET['page']) ? $_GET['page'] : 'home';
+
+
+//Include controller, if it exists
+if (file_exists("controllers/$page.php")){
+    require "controllers/$page.php";
+}
+
+
+//Include template
 require "templates/master_template.php";
+
 
 //Show page load time
 echo "Lehte laaditi " . round(microtime(1) - $page_load_start, 4) . " sekundit";
