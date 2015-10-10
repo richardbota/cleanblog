@@ -1,23 +1,3 @@
-<?php
-
-//Get post id
-$post_id = isset($_GET['id']) ? $_GET['id'] : -1;
-
-// Connect database
-$db = mysqli_connect('127.0.0.1', 'root', '', 'cleanblog') or die(mysqli_error($db));
-mysqli_query($db, "SET NAMES 'utf8'");
-
-
-// Retrieve data from database
-$q = mysqli_query($db, "
-  SELECT *, DATE_FORMAT(post_created, '%d.%m.%Y %H:%i') post_created
-  FROM posts
-    NATURAL JOIN authors
-  WHERE post_id=$post_id");
-
-$post = mysqli_fetch_assoc($q);
-?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -42,8 +22,9 @@ $post = mysqli_fetch_assoc($q);
           type="text/css">
     <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet'
           type='text/css'>
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
-          rel='stylesheet' type='text/css'>
+    <link
+        href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
+        rel='stylesheet' type='text/css'>
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -75,16 +56,16 @@ $post = mysqli_fetch_assoc($q);
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="index.html">Home</a>
+                    <a href="?">Home</a>
                 </li>
                 <li>
-                    <a href="about.html">About</a>
+                    <a href="?page=about">About</a>
                 </li>
                 <li>
-                    <a href="post.php">Sample Post</a>
+                    <a href="?page=post">Sample Post</a>
                 </li>
                 <li>
-                    <a href="contact.html">Contact</a>
+                    <a href="?page=contact">Contact</a>
                 </li>
             </ul>
         </div>
@@ -93,33 +74,7 @@ $post = mysqli_fetch_assoc($q);
     <!-- /.container -->
 </nav>
 
-<!-- Page Header -->
-<!-- Set your background image for this header on the line below. -->
-<header class="intro-header" style="background-image: url('img/post-bg.jpg')">
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
-                <div class="post-heading">
-                    <h1 class="post-title"><?=$post['post_title']?></h1>
-
-                    <h2 class="subheading"><?=$post['post_description']?></h2>
-                    <span class="meta">Posted by <a href="#"><?=$post['author_name']?></a> on <?=$post['post_created']?></span>
-                </div>
-            </div>
-        </div>
-    </div>
-</header>
-
-<!-- Post Content -->
-<article>
-    <div class="container">
-        <div class="row">
-            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1"><?=$post['post_title']?><?=$post['post_text']?></div>
-        </div>
-    </div>
-</article>
-
-<hr>
+<? require "pages/$page.php"; ?>
 
 <!-- Footer -->
 <footer>
