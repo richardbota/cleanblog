@@ -2,7 +2,6 @@
 //Set timezone
 date_default_timezone_set('Europe/Tallinn');
 
-
 //Start page load timing
 $page_load_start = microtime(1);
 
